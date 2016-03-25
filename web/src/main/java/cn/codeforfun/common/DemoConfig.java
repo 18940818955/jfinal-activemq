@@ -1,6 +1,10 @@
 package cn.codeforfun.common;
 
 import cn.codeforfun.controller.IndexController;
+import cn.codeforfun.jfinal.mq.activemq.core.ActiveMqPlugin;
+import cn.codeforfun.jfinal.mq.activemq.core.JFinalQueue;
+import cn.codeforfun.jfinal.mq.activemq.core.JFinalQueueImpl;
+import cn.codeforfun.jfinal.mq.activemq.core.MqListener;
 import com.jfinal.config.*;
 import com.jfinal.kit.PropKit;
 import com.jfinal.render.JspRender;
@@ -35,6 +39,12 @@ public class DemoConfig extends JFinalConfig {
      * 配置插件
      */
     public void configPlugin(Plugins me) {
+        ActiveMqPlugin activeMqPlugin = new ActiveMqPlugin();
+        JFinalQueue queue = new JFinalQueueImpl("WeChatQueue");
+        queue.add(new MqListener());
+        activeMqPlugin.addQueue(queue);
+
+        me.add(activeMqPlugin);
     }
 
     /**
