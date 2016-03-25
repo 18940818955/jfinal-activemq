@@ -11,40 +11,34 @@ import java.util.Set;
  */
 public class ActiveMqPlugin implements IPlugin {
 
+    private static JFinalQueue queue;
+
+    private Thread thread;
+
     private boolean isStarted = false;
 
-    private Map<String, JFinalQueue> queueMap = new HashMap<String, JFinalQueue>();
 
-    public void addQueue(JFinalQueue queue) {
-        queueMap.put(queue.getQueueName(), queue);
+    public void setQueue(JFinalQueue queue) {
+        this.queue = queue;
+    }
+
+    public void addTopic(JFinalTopic topic) {
+
     }
 
     public boolean start() {
         if (isStarted) return true;
-        Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
-        for (Map.Entry entry : entries) {
-            JFinalQueueImpl queue = (JFinalQueueImpl) entry.getValue();
-            String queueName = (String) entry.getKey();
-            Thread thread = new Thread(queue);
-            thread.setName(queueName);
-            thread.getId();
-            thread.start();
-        }
+        //
+        thread = new Thread(queue);
+        thread.start();
         isStarted = true;
         return true;
     }
 
     public boolean stop() {
         if (!isStarted) return true;
-        Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
-        for (Map.Entry entry : entries) {
-            JFinalQueueImpl queue = (JFinalQueueImpl) entry.getValue();
-            queue.stop();
-            String queueName = (String) entry.getKey();
-            Thread thread = Thread.;
-            thread.setName(queueName);
-            thread.stop();
-        }
+        //
+        thread.interrupt();
         isStarted = false;
         return true;
     }

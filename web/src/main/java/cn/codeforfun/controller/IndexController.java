@@ -1,5 +1,6 @@
 package cn.codeforfun.controller;
 
+import cn.codeforfun.jfinal.mq.activemq.core.JFinalQueue;
 import com.jfinal.core.Controller;
 
 /**
@@ -8,5 +9,11 @@ import com.jfinal.core.Controller;
 public class IndexController extends Controller {
     public void index() {
         renderJsp("index.jsp");
+    }
+
+    public void send() {
+        JFinalQueue.sendMessage(getPara("param"));
+        setAttr("result", "success");
+        renderJson();
     }
 }
