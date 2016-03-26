@@ -93,7 +93,7 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
         Thread thread = new Thread(this);
         thread.start();
         isStarted = true;
-        log.info("JFinal queue is started.");
+        log.info("JFinal queue has been started.");
         return true;
     }
 
@@ -105,7 +105,7 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
             e.printStackTrace();
         }
         isStarted = false;
-        log.info("JFinal queue is stopped.");
+        log.info("JFinal queue has been stopped.");
         return true;
     }
 
