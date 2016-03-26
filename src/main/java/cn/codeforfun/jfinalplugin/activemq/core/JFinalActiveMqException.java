@@ -1,4 +1,4 @@
-package cn.codeforfun.jfinal.mq.activemq.core;
+package cn.codeforfun.jfinalplugin.activemq.core;
 
 /**
  * Created by Administrator on 2016/3/26.

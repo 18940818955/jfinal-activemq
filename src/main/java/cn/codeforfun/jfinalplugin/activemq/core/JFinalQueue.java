@@ -1,4 +1,4 @@
-package cn.codeforfun.jfinal.mq.activemq.core;
+package cn.codeforfun.jfinalplugin.activemq.core;
 
 import com.jfinal.log.Log;
 import org.apache.activemq.ActiveMQConnection;
@@ -48,7 +48,7 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
 
     public static void sendMessage(String message) {
         if (message == null) {
-            log.info("message is null");
+            log.info("Message is null.");
             return;
         }
         try {
@@ -57,14 +57,14 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
             producer = session.createProducer(destination);
             producer.send(textMessage);
         } catch (JMSException e) {
-            log.error("send message error");
+            log.error("Send message error.");
             e.printStackTrace();
         }
     }
 
     public void run() {
         if (queueName == null) {
-            log.error("queue name can't be null");
+            log.error("Queue name can't be null.");
             throw new NullPointerException();
         }
         try {
@@ -93,7 +93,7 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
         Thread thread = new Thread(this);
         thread.start();
         isStarted = true;
-        log.info("jfinal queue is started");
+        log.info("JFinal queue is started");
         return true;
     }
 
@@ -105,7 +105,7 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
             e.printStackTrace();
         }
         isStarted = false;
-        log.info("jfinal queue is stoped");
+        log.info("JFinal queue is stopped");
         return true;
     }
 
