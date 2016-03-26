@@ -49,7 +49,7 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
 
     public static void sendMessage(String message) {
         if (StrKit.isBlank(message)) {
-            log.info("Message is null.");
+            log.info("Message is blank.");
             return;
         }
         try {
