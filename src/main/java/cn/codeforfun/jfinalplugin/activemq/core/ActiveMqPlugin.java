@@ -1,5 +1,6 @@
 package cn.codeforfun.jfinalplugin.activemq.core;
 
+import cn.codeforfun.jfinalplugin.activemq.exception.JFinalActiveMqException;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.IPlugin;
 
