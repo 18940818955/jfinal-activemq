@@ -1,5 +1,6 @@
 package cn.codeforfun.jfinalplugin.activemq.core;
 
+import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -47,7 +48,7 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
     }
 
     public static void sendMessage(String message) {
-        if (message == null) {
+        if (StrKit.isBlank(message)) {
             log.info("Message is null.");
             return;
         }
