@@ -2,8 +2,6 @@ package cn.codeforfun.common;
 
 import cn.codeforfun.controller.IndexController;
 import cn.codeforfun.jfinal.mq.activemq.core.ActiveMqPlugin;
-import cn.codeforfun.jfinal.mq.activemq.core.JFinalQueue;
-import cn.codeforfun.mq.WeChatListener;
 import cn.codeforfun.mq.WeChatQueue;
 import com.jfinal.config.*;
 import com.jfinal.kit.PropKit;
@@ -40,10 +38,8 @@ public class DemoConfig extends JFinalConfig {
      */
     public void configPlugin(Plugins me) {
         ActiveMqPlugin activeMqPlugin = new ActiveMqPlugin();
-        JFinalQueue queue = new WeChatQueue("WeChatQueue");
-        queue.addListener(new WeChatListener());
+        WeChatQueue queue = new WeChatQueue("WeChatQueue");
         activeMqPlugin.setQueue(queue);
-
         me.add(activeMqPlugin);
     }
 

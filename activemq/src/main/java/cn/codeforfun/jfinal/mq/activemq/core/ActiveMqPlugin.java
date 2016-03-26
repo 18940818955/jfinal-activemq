@@ -13,7 +13,6 @@ public class ActiveMqPlugin implements IPlugin {
 
     private static JFinalQueue queue;
 
-    private Thread thread;
 
     private boolean isStarted = false;
 
@@ -29,8 +28,7 @@ public class ActiveMqPlugin implements IPlugin {
     public boolean start() {
         if (isStarted) return true;
         //
-        thread = new Thread(queue);
-        thread.start();
+        queue.startQueue();
         isStarted = true;
         return true;
     }
@@ -38,7 +36,7 @@ public class ActiveMqPlugin implements IPlugin {
     public boolean stop() {
         if (!isStarted) return true;
         //
-        thread.interrupt();
+        queue.stopQueue();
         isStarted = false;
         return true;
     }
