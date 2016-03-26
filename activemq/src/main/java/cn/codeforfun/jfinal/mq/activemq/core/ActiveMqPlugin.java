@@ -1,6 +1,5 @@
 package cn.codeforfun.jfinal.mq.activemq.core;
 
-import com.jfinal.log.Log;
 import com.jfinal.plugin.IPlugin;
 
 import java.util.HashMap;
@@ -14,14 +13,11 @@ public class ActiveMqPlugin implements IPlugin {
 
     private static Map<String, JFinalQueue> queueMap = new HashMap<String, JFinalQueue>();
 
-    private Log log = Log.getLog(ActiveMqPlugin.class);
-
     private boolean isStarted = false;
 
 
     public void addQueue(JFinalQueue queue) {
         if (queueMap.containsKey(queue.getQueueName())) {
-            log.error("there is a same name queue");
             try {
                 throw new JFinalActiveMqException("there is a same name queue");
             } catch (JFinalActiveMqException e) {
