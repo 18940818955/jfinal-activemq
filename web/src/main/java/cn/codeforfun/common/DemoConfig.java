@@ -39,7 +39,9 @@ public class DemoConfig extends JFinalConfig {
     public void configPlugin(Plugins me) {
         ActiveMqPlugin activeMqPlugin = new ActiveMqPlugin();
         WeChatQueue queue = new WeChatQueue("WeChatQueue");
-        activeMqPlugin.setQueue(queue);
+        WeChatQueue queue1 = new WeChatQueue("WeChatQueue");
+        activeMqPlugin.addQueue(queue);
+        activeMqPlugin.addQueue(queue1);
         me.add(activeMqPlugin);
     }
 

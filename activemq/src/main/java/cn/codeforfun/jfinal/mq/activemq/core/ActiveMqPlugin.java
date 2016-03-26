@@ -1,5 +1,6 @@
 package cn.codeforfun.jfinal.mq.activemq.core;
 
+import com.jfinal.log.Log;
 import com.jfinal.plugin.IPlugin;
 
 import java.util.HashMap;
@@ -11,14 +12,24 @@ import java.util.Set;
  */
 public class ActiveMqPlugin implements IPlugin {
 
-    private static JFinalQueue queue;
+    private static Map<String, JFinalQueue> queueMap = new HashMap<String, JFinalQueue>();
 
+    private Log log = Log.getLog(ActiveMqPlugin.class);
 
     private boolean isStarted = false;
 
 
-    public void setQueue(JFinalQueue queue) {
-        this.queue = queue;
+    public void addQueue(JFinalQueue queue) {
+        if (queueMap.containsKey(queue.getQueueName())) {
+            log.error("there is a same name queue");
+            try {
+                throw new JFinalActiveMqException("there is a same name queue");
+            } catch (JFinalActiveMqException e) {
+                e.printStackTrace();
+            }
+        } else {
+            queueMap.put(queue.getQueueName(), queue);
+        }
     }
 
     public void addTopic(JFinalTopic topic) {
@@ -28,7 +39,11 @@ public class ActiveMqPlugin implements IPlugin {
     public boolean start() {
         if (isStarted) return true;
         //
-        queue.startQueue();
+        Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
+        for (Map.Entry entry : entries) {
+            JFinalQueue queue = (JFinalQueue) entry.getValue();
+            queue.startQueue();
+        }
         isStarted = true;
         return true;
     }
@@ -36,7 +51,11 @@ public class ActiveMqPlugin implements IPlugin {
     public boolean stop() {
         if (!isStarted) return true;
         //
-        queue.stopQueue();
+        Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
+        for (Map.Entry entry : entries) {
+            JFinalQueue queue = (JFinalQueue) entry.getValue();
+            queue.stopQueue();
+        }
         isStarted = false;
         return true;
     }
