@@ -39,7 +39,7 @@ public class ActiveMqPlugin implements IPlugin {
         for (Map.Entry entry : entries) {
             JFinalQueue queue = (JFinalQueue) entry.getValue();
             if (queue.startQueue()) {
-                log.info("The queue has been started.The name is " + queue.getQueueName());
+                log.debug("The queue has been started.The name is " + queue.getQueueName());
             }
         }
         log.info("JFinal queue has been started");
@@ -57,7 +57,7 @@ public class ActiveMqPlugin implements IPlugin {
                 log.debug("The queue has been stopped.The name is " + queue.getQueueName());
             }
         }
-        log.debug("JFinal queue has been stopped");
+        log.info("JFinal queue has been stopped");
         isStarted = false;
         return true;
     }
