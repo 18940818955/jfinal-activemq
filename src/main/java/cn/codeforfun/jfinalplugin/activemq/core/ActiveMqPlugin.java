@@ -10,8 +10,8 @@ import java.util.Set;
 
 public class ActiveMqPlugin implements IPlugin {
 
-    public static Map<String, JFinalQueue> queueMap = new HashMap<String, JFinalQueue>();
-
+    public static Map<String, JFinalQueue> queueMap = new HashMap<>();
+    public static Map<String, JFinalTopic> topicMap = new HashMap<>();
     private boolean isStarted = false;
 
     private static Log log = Log.getLog(ActiveMqPlugin.class);
@@ -29,20 +29,46 @@ public class ActiveMqPlugin implements IPlugin {
     }
 
     public void addTopic(JFinalTopic topic) {
-
+        if (topicMap.containsKey(topic.getTopicName())) {
+            try {
+                throw new JFinalActiveMqException("There is a same name topic.The topic name is " + topic.getTopicName());
+            } catch (JFinalActiveMqException e) {
+                e.printStackTrace();
+            }
+        } else {
+            topicMap.put(topic.getTopicName(), topic);
+        }
     }
 
     public boolean start() {
         if (isStarted) return true;
         //
-        Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
-        for (Map.Entry entry : entries) {
-            JFinalQueue queue = (JFinalQueue) entry.getValue();
-            if (queue.startQueue()) {
-                log.debug("The queue has been started.The name is " + queue.getQueueName());
+        try {
+            Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
+            for (Map.Entry entry : entries) {
+                JFinalQueue queue = (JFinalQueue) entry.getValue();
+                if (queue.startQueue()) {
+                    log.debug("The queue has been started.The name is " + queue.getQueueName());
+                }
             }
+            log.info("JFinal queue has been started.");
+        } catch (Exception e) {
+            log.info("JFinal queue start error.");
+            e.printStackTrace();
         }
-        log.info("JFinal queue has been started");
+        try {
+            Set<Map.Entry<String, JFinalTopic>> entries = topicMap.entrySet();
+            for (Map.Entry entry : entries) {
+                JFinalTopic topic = (JFinalTopic) entry.getValue();
+                if (topic.startTopic()) {
+                    log.debug("The topic has been started.The name is " + topic.getTopicName());
+                }
+            }
+            log.info("JFinal topic has been started.");
+        } catch (Exception e) {
+            log.info("JFinal topic start error.");
+            e.printStackTrace();
+        }
         isStarted = true;
         return true;
     }
@@ -50,14 +76,32 @@ public class ActiveMqPlugin implements IPlugin {
     public boolean stop() {
         if (!isStarted) return true;
         //
-        Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
-        for (Map.Entry entry : entries) {
-            JFinalQueue queue = (JFinalQueue) entry.getValue();
-            if (queue.stopQueue()) {
-                log.debug("The queue has been stopped.The name is " + queue.getQueueName());
+        try {
+            Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
+            for (Map.Entry entry : entries) {
+                JFinalQueue queue = (JFinalQueue) entry.getValue();
+                if (queue.stopQueue()) {
+                    log.debug("The queue has been stopped.The name is " + queue.getQueueName());
+                }
             }
+            log.info("JFinal queue has been stopped");
+        } catch (Exception e) {
+            log.info("JFinal queue stop error.");
+            e.printStackTrace();
         }
-        log.info("JFinal queue has been stopped");
+        try {
+            Set<Map.Entry<String, JFinalTopic>> entries = topicMap.entrySet();
+            for (Map.Entry entry : entries) {
+                JFinalTopic topic = (JFinalTopic) entry.getValue();
+                if (topic.stopTopic()) {
+                    log.debug("The topic has been stopped.The name is " + topic.getTopicName());
+                }
+            }
+            log.info("JFinal topic has been stopped");
+        } catch (Exception e) {
+            log.info("JFinal topic stop error.");
+            e.printStackTrace();
+        }
         isStarted = false;
         return true;
     }
