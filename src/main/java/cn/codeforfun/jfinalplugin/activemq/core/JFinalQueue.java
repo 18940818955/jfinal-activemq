@@ -17,9 +17,9 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
     private String queueName = null;
     private ConnectionFactory connectionFactory;
     private Connection connection = null;
-    private static Session session;
-    private static Destination destination;
-    private static MessageProducer producer;
+    private Session session;
+    private Destination destination;
+    private MessageProducer producer;
     private MessageConsumer consumer;
     volatile boolean isStarted = false;
 
@@ -47,16 +47,21 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
         return queueName;
     }
 
-    public static void sendMessage(String message) {
+    public static void sendMessage(String queueName, String message) {
         if (StrKit.isBlank(message)) {
-            log.info("Message is blank.");
+            log.debug("Message is blank.");
             return;
         }
+        if (!ActiveMqPlugin.queueMap.containsKey(queueName)) {
+            log.error("The queue is not exist.The queue name is " + queueName);
+            return;
+        }
+        JFinalQueue queue = ActiveMqPlugin.queueMap.get(queueName);
         try {
-            TextMessage textMessage = session.createTextMessage();
+            TextMessage textMessage = queue.session.createTextMessage();
             textMessage.setText(message);
-            producer = session.createProducer(destination);
-            producer.send(textMessage);
+            queue.producer = queue.session.createProducer(queue.destination);
+            queue.producer.send(textMessage);
         } catch (JMSException e) {
             log.error("Send message error.");
             e.printStackTrace();
@@ -94,7 +99,6 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
         Thread thread = new Thread(this);
         thread.start();
         isStarted = true;
-        log.info("JFinal queue has been started.");
         return true;
     }
 
@@ -106,7 +110,6 @@ public abstract class JFinalQueue implements Runnable, MessageListener {
             e.printStackTrace();
         }
         isStarted = false;
-        log.info("JFinal queue has been stopped.");
         return true;
     }
 

@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class ActiveMqPlugin implements IPlugin {
 
-    private static Map<String, JFinalQueue> queueMap = new HashMap<String, JFinalQueue>();
+    public static Map<String, JFinalQueue> queueMap = new HashMap<String, JFinalQueue>();
 
     private boolean isStarted = false;
 
@@ -19,7 +19,7 @@ public class ActiveMqPlugin implements IPlugin {
     public void addQueue(JFinalQueue queue) {
         if (queueMap.containsKey(queue.getQueueName())) {
             try {
-                throw new JFinalActiveMqException("There is a same name queue.");
+                throw new JFinalActiveMqException("There is a same name queue.The queue name is " + queue.getQueueName());
             } catch (JFinalActiveMqException e) {
                 e.printStackTrace();
             }
@@ -38,9 +38,11 @@ public class ActiveMqPlugin implements IPlugin {
         Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
         for (Map.Entry entry : entries) {
             JFinalQueue queue = (JFinalQueue) entry.getValue();
-            queue.startQueue();
-            log.info(queue.getQueueName() + " queue has been started.");
+            if (queue.startQueue()) {
+                log.info("The queue has been started.The name is " + queue.getQueueName());
+            }
         }
+        log.info("JFinal queue has been started");
         isStarted = true;
         return true;
     }
@@ -51,9 +53,11 @@ public class ActiveMqPlugin implements IPlugin {
         Set<Map.Entry<String, JFinalQueue>> entries = queueMap.entrySet();
         for (Map.Entry entry : entries) {
             JFinalQueue queue = (JFinalQueue) entry.getValue();
-            queue.stopQueue();
-            log.info(queue.getQueueName() + " queue has been stopped.");
+            if (queue.stopQueue()) {
+                log.debug("The queue has been stopped.The name is " + queue.getQueueName());
+            }
         }
+        log.debug("JFinal queue has been stopped");
         isStarted = false;
         return true;
     }
