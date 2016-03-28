@@ -6,11 +6,7 @@
 
     <groupId>cn.codeforfun</groupId>
     <artifactId>jfinal-activemq</artifactId>
-<<<<<<< HEAD
     <version>0.3</version>
-=======
-    <version>0.2</version>
->>>>>>> 368035f7854364ad66bd2f8ce3a7aad3c474cade
     <packaging>jar</packaging>
 
     <parent>
