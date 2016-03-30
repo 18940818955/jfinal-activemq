@@ -9,6 +9,28 @@
     <version>0.3</version>
     <packaging>jar</packaging>
 
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>jfinal-activemq</id>
+            <name>DavidWang</name>
+            <email>253498229@qq.com</email>
+            <url>http://my.oschina.net/eima</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:18940818955/jfinal-activemq.git</connection>
+        <developerConnection>scm:git:git@github.com:18940818955/jfinal-activemq.git</developerConnection>
+        <url>git@github.com:18940818955/jfinal-activemq.git</url>
+    </scm>
+
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -56,6 +78,20 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
