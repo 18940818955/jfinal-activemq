@@ -8,6 +8,14 @@
     <artifactId>jfinal-activemq</artifactId>
     <version>0.3</version>
     <packaging>jar</packaging>
+    <name>jfinal-activemq</name>
+    <description>This is a simple plugin for jfinal.</description>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
     <licenses>
         <license>
@@ -15,6 +23,12 @@
             <url>http://apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:18940818955/jfinal-activemq.git</connection>
+        <developerConnection>scm:git:git@github.com:18940818955/jfinal-activemq.git</developerConnection>
+        <url>https://github.com/18940818955/jfinal-activemq</url>
+    </scm>
 
     <developers>
         <developer>
@@ -25,17 +39,12 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:18940818955/jfinal-activemq.git</connection>
-        <developerConnection>scm:git:git@github.com:18940818955/jfinal-activemq.git</developerConnection>
-        <url>git@github.com:18940818955/jfinal-activemq.git</url>
-    </scm>
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/18940818955/jfinal-activemq/issues</url>
+    </issueManagement>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -81,6 +90,40 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.4</version>
                 <executions>
@@ -92,7 +135,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 </project>
